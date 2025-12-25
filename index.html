@@ -1,26 +1,202 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa">
-  <head>
-<meta charest=utf-8">
-<tittle>اولین کد نویسی معراج</tittle>
-  </head>
-  <body>
-  <header>
-   <section>
-    <h1>meraj is best</h1>
-    <p>everyone know meraj is best</p>
-   </section>
-<main>
-    <section>
-    <h2>why meraj is best?</h2>
-    <p>becuse he is intaligent</p>
-    </section>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meraj</title>
+  <style>
+    /* ریست اولیه */
+    * {margin:0; padding:0; box-sizing:border-box;}
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #f0f8ff, #e6e6fa);
+      color: #333;
+      line-height: 1.6;
+    }
 
-    <section>
-    <h3> how we can connect with meraj</h3>
-    <p>you must to be girl and pay 2milion dollors to see him</p>
-    </section>
-</main>
-  </header>  
-  </body>
-</html>
+    /* همبرگر منو */
+    .hamburger {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 35px;
+      height: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .hamburger span {
+      display: block;
+      height: 5px;
+      background: #333;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    /* منوی بغل */
+    .menu {
+      position: fixed;
+      top: 0;
+      right: -250px;
+      width: 250px;
+      height: 100%;
+      background: linear-gradient(180deg, #4facfe, #00f2fe);
+      box-shadow: -2px 0 5px rgba(0,0,0,0.3);
+      padding: 50px 20px;
+      transition: right 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .menu.active {
+      right: 0;
+    }
+    .menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    /* تیتر اصلی */
+    .site-title {
+      background: linear-gradient(90deg, #ff7e5f, #feb47b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 50px;
+      text-align: center;
+      margin: 40px 0;
+    }
+
+    section {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+
+    h2,h3,h4 {
+      margin-bottom: 10px;
+    }
+
+    p, li {
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input, button {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+
+    input {
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: linear-gradient(90deg, #43cea2, #185a9d);
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- همبرگر -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <!-- منوی بغل -->
+  <div class="menu" id="menu">
+    <a href="#section1">خانه</a>
+    <a href="#section2">درباره معراج</a>
+    <a href="#section3">عکس و لینک</a>
+    <a href="#section4">خلاف‌ها</a>
+    <a href="#section5">رزرو فرم</a>
+  </div>
+
+  <!-- بخش‌ها -->
+  <section id="section1">
+    <h1 class="site-title">معراج خیلی خفنه</h1>
+    <p>چون عضو مافیاس</p>
+  </section>
+
+  <section id="section2">
+    <h2>چرا هیشکی اینو نمیدونست</h2>
+    <p>چون معراج خوشش نمیاد کسی بفهمه</p>
+  </section>
+
+  <section id="section3">
+    <img src="https://www.quickanddirtytips.com/wp-content/uploads/2022/08/shutterstock_699567733-scaled.jpg" alt="عکس معراج">
+    <p>عکس معراج</p>
+    <a href="https://mafia.gg/" target="_blank">سایت رسمی مافیا</a>
+  </section>
+
+  <section id="section4">
+    <h3>خلاف‌های بزرگ معراج</h3>
+    <ul>
+      <li>دزدی از بانک مرکزی</li>
+      <li>کلاه‌برداری از ایلان ماسک</li>
+      <li>قاچاق اسلحه از آمریکا</li>
+    </ul>
+  </section>
+
+  <section id="section5">
+    <h4>برای رزرو نوبت ملاقات با این مافیای جذاب و خطرناک فرم زیر را پر کنید</h4>
+    <p>(این سایت امنیت جانی شمارا تضمین نمی‌کند)</p>
+    <form action="#" method="post">
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" name="fullname" placeholder="مثال: پارسا ابراهیمی" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="e.x parsa.kon@gmail.com" required>
+
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" name="phone" placeholder="شماره تماس" required>
+
+      <button type="submit">ثبت</button>
+    </form>
+  </section>
+
+  <!-- JS -->
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('menu');
+
+    hamburger.addEventListener('click', () => {
+      menu.classList.toggle('active');
+      hamburger.classList.toggle('open');
+    });
+  </script>
+</body>
+    </html>
