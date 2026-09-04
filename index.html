@@ -1,386 +1,632 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>تبدیل به L-Text</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background: #0f172a;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+<title>L Text | File Converter</title>
 
-        .container {
-            background: #1e293b;
-            border-radius: 32px;
-            padding: 40px;
-            max-width: 700px;
-            width: 100%;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-            border: 1px solid #334155;
-        }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        h1 {
-            color: #f1f5f9;
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            text-align: center;
-        }
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #08090d;
+    color: #ffffff;
+    min-height: 100vh;
+}
 
-        .subtitle {
-            color: #94a3b8;
-            text-align: center;
-            font-size: 14px;
-            margin-bottom: 28px;
-            line-height: 1.8;
-        }
+/* HEADER */
 
-        .subtitle strong {
-            color: #a78bfa;
-        }
+header {
+    padding: 28px 8%;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        /* Drop Box */
-        .drop-zone {
-            border: 2px dashed #475569;
-            border-radius: 20px;
-            padding: 50px 20px;
-            text-align: center;
-            color: #cbd5e1;
-            transition: 0.3s;
-            cursor: pointer;
-            background: #0f172a;
-            margin-bottom: 24px;
-            position: relative;
-        }
+.logo {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
 
-        .drop-zone:hover,
-        .drop-zone.dragover {
-            border-color: #a78bfa;
-            background: #1e293b;
-        }
+.logo span {
+    color: #7c5cff;
+}
 
-        .drop-zone .icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-        }
+/* MAIN */
 
-        .drop-zone p {
-            font-size: 15px;
-        }
+.container {
+    width: min(900px, 90%);
+    margin: auto;
+    padding: 70px 0;
+}
 
-        .drop-zone .file-name {
-            color: #a78bfa;
-            font-weight: 600;
-            margin-top: 10px;
-            word-break: break-all;
-        }
+.hero {
+    text-align: center;
+    margin-bottom: 45px;
+}
 
-        /* Progress */
-        .progress-wrapper {
-            margin: 24px 0 20px;
-        }
+.hero h1 {
+    font-size: clamp(40px, 7vw, 72px);
+    margin-bottom: 18px;
+    letter-spacing: -2px;
+}
 
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: #334155;
-            border-radius: 99px;
-            overflow: hidden;
-        }
+.hero h1 span {
+    color: #7c5cff;
+}
 
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #a78bfa, #8b5cf6);
-            border-radius: 99px;
-            transition: width 0.15s ease;
-        }
+.hero p {
+    max-width: 650px;
+    margin: auto;
+    color: #a7a9b3;
+    line-height: 1.8;
+    font-size: 16px;
+}
 
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            color: #94a3b8;
-            font-size: 13px;
-            margin-top: 6px;
-        }
+/* CONVERTER CARD */
 
-        /* Start Button */
-        .btn-start {
-            width: 100%;
-            padding: 16px;
-            background: #7c3aed;
-            color: #fff;
-            font-size: 18px;
-            font-weight: 700;
-            border: none;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+.converter {
+    background: #101218;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 20px 70px rgba(0,0,0,0.35);
+}
 
-        .btn-start:hover {
-            background: #6d28d9;
-            transform: scale(1.02);
-        }
+/* DROP ZONE */
 
-        .btn-start:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
+.drop-zone {
+    min-height: 270px;
+    border: 2px dashed #3c3f4c;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.25s;
+    padding: 30px;
+}
 
-        /* ----- OVERLAY (پاپ‌آپ قفل‌کننده) ----- */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(8px);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-            padding: 20px;
-        }
+.drop-zone:hover,
+.drop-zone.dragover {
+    border-color: #7c5cff;
+    background: rgba(124,92,255,0.06);
+}
 
-        .overlay.active {
-            display: flex;
-        }
+.drop-content h2 {
+    margin-bottom: 12px;
+    font-size: 23px;
+}
 
-        .modal {
-            background: #1e293b;
-            border: 1px solid #475569;
-            border-radius: 32px;
-            padding: 48px 40px;
-            max-width: 460px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
-            animation: fadeUp 0.4s ease;
-        }
+.drop-content p {
+    color: #888b98;
+    margin-bottom: 20px;
+}
 
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+.file-button {
+    display: inline-block;
+    padding: 12px 22px;
+    background: #7c5cff;
+    border-radius: 10px;
+    font-weight: 700;
+}
 
-        .modal .lock-icon {
-            font-size: 56px;
-            margin-bottom: 16px;
-        }
+#fileInput {
+    display: none;
+}
 
-        .modal h2 {
-            color: #f1f5f9;
-            font-size: 22px;
-            margin-bottom: 12px;
-        }
+/* FILE INFO */
 
-        .modal .msg {
-            color: #cbd5e1;
-            font-size: 15px;
-            line-height: 2;
-            margin-bottom: 28px;
-        }
+.file-info {
+    display: none;
+    margin-top: 20px;
+    padding: 16px;
+    background: #171922;
+    border-radius: 12px;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        .modal .msg span {
-            display: block;
-        }
+.file-name {
+    font-weight: 600;
+    word-break: break-all;
+}
 
-        .modal .btn-subscribe {
-            display: inline-block;
-            padding: 14px 40px;
-            background: #f59e0b;
-            color: #0f172a;
-            font-weight: 700;
-            font-size: 16px;
-            border-radius: 40px;
-            text-decoration: none;
-            transition: 0.2s;
-        }
+.file-size {
+    color: #858895;
+    font-size: 14px;
+}
 
-        .modal .btn-subscribe:hover {
-            background: #d97706;
-            transform: scale(1.04);
-        }
+/* START BUTTON */
 
-        .modal .btn-subscribe::after {
-            content: " 🔗";
-        }
+.start-button {
+    width: 100%;
+    border: none;
+    margin-top: 22px;
+    padding: 17px;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #08090d;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: 0.2s;
+}
 
-        /* Responsive */
-        @media (max-width: 500px) {
-            .container {
-                padding: 24px;
-            }
-            .modal {
-                padding: 32px 20px;
-            }
-        }
-    </style>
+.start-button:hover {
+    transform: translateY(-2px);
+    background: #eeeeee;
+}
+
+.start-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* PROGRESS */
+
+.progress-container {
+    display: none;
+    margin-top: 28px;
+}
+
+.progress-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #aaa;
+    font-size: 14px;
+}
+
+.progress-bar {
+    height: 10px;
+    background: #252832;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #7c5cff;
+    border-radius: 50px;
+    transition: width 0.25s linear;
+}
+
+/* POPUP OVERLAY */
+
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(12px);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.popup {
+    width: min(460px, 100%);
+    background: #11131a;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 22px;
+    padding: 38px;
+    text-align: center;
+    box-shadow: 0 30px 100px rgba(0,0,0,0.7);
+}
+
+.popup-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 22px;
+    border-radius: 50%;
+    background: rgba(124,92,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+}
+
+.popup h2 {
+    margin-bottom: 18px;
+    font-size: 25px;
+}
+
+.popup p {
+    color: #a8aab4;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+.subscribe-button {
+    display: block;
+    text-decoration: none;
+    background: #7c5cff;
+    color: white;
+    padding: 15px;
+    border-radius: 11px;
+    font-weight: 800;
+    transition: 0.2s;
+}
+
+.subscribe-button:hover {
+    background: #6948ee;
+    transform: translateY(-2px);
+}
+
+/* FOOTER */
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #666a76;
+    font-size: 13px;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 22px 5%;
+    }
+
+    .container {
+        padding: 45px 0;
+    }
+
+    .converter {
+        padding: 18px;
+    }
+
+    .drop-zone {
+        min-height: 230px;
+    }
+
+    .popup {
+        padding: 30px 22px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <div class="container">
-        <h1>📄 L‑Text Converter</h1>
-        <div class="subtitle">
-            <strong>تبدیل هر فرمتی</strong> به فرمت اختصاصی <strong>L‑Text</strong> —
-            فقط کافیه فایل رو بندازی اینجا، بعد Start کن.
-        </div>
+<header>
+    <div class="logo">L<span>TEXT</span></div>
+</header>
 
-        <!-- Drop Zone -->
+<main class="container">
+
+    <section class="hero">
+        <h1>Convert Files to <span>L Text</span></h1>
+
+        <p>
+            L Text is a simple and powerful file conversion platform.
+            Upload your file, start the conversion process, and prepare
+            your file for download in L Text format.
+        </p>
+    </section>
+
+    <section class="converter">
+
+        <!-- DROP ZONE -->
+
         <div class="drop-zone" id="dropZone">
-            <div class="icon">📂</div>
-            <p>فایل رو بکشید اینجا یا کلیک کنید</p>
-            <div class="file-name" id="fileName">هیچ فایلی انتخاب نشده</div>
-            <input type="file" id="fileInput" style="display:none" />
+
+            <div class="drop-content">
+
+                <h2>Drop your file here</h2>
+
+                <p>
+                    Drag & drop any file or choose one from your device
+                </p>
+
+                <label class="file-button" for="fileInput">
+                    Choose File
+                </label>
+
+                <input
+                    type="file"
+                    id="fileInput"
+                >
+
+            </div>
+
         </div>
 
-        <!-- Progress -->
-        <div class="progress-wrapper">
+        <!-- FILE INFORMATION -->
+
+        <div class="file-info" id="fileInfo">
+
+            <div class="file-name" id="fileName"></div>
+
+            <div class="file-size" id="fileSize"></div>
+
+        </div>
+
+        <!-- START -->
+
+        <button
+            class="start-button"
+            id="startButton"
+            disabled
+        >
+            Start Conversion
+        </button>
+
+        <!-- PROGRESS -->
+
+        <div
+            class="progress-container"
+            id="progressContainer"
+        >
+
+            <div class="progress-top">
+
+                <span>Converting...</span>
+
+                <span id="progressText">0%</span>
+
+            </div>
+
             <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+
+                <div
+                    class="progress-fill"
+                    id="progressFill"
+                ></div>
+
             </div>
-            <div class="progress-label">
-                <span id="progressText">۰٪</span>
-                <span id="fileSize">—</span>
-            </div>
+
         </div>
 
-        <!-- Start Button -->
-        <button class="btn-start" id="startBtn" disabled>▶ شروع تبدیل</button>
-    </div>
+    </section>
 
-    <!-- ===== OVERLAY (پاپ‌آپ قفل‌کننده) ===== -->
-    <div class="overlay" id="overlay">
-        <div class="modal">
-            <div class="lock-icon">🔒</div>
-            <h2>برای دریافت فایل باید اشتراک داشته باشید</h2>
-            <div class="msg">
-                <span>✅ تبدیل با موفقیت انجام شد.</span>
-                <span>📥 اما خروجی فقط برای کاربران ویژه است.</span>
-                <span>🎁 با تهیه اشتراک، فایل رو دانلود کن.</span>
-                <span>🚀 پشتیبانی از تیم ما یعنی توسعه بیشتر.</span>
-            </div>
-            <a class="btn-subscribe" href="#" id="subscribeLink">خرید اشتراک</a>
+</main>
+
+<footer>
+    © 2026 L Text. All rights reserved.
+</footer>
+
+
+<!-- SUBSCRIPTION POPUP -->
+
+<div
+    class="overlay"
+    id="overlay"
+>
+
+    <div class="popup">
+
+        <div class="popup-icon">
+            🔒
         </div>
+
+        <h2>Conversion Complete</h2>
+
+        <p>
+            Your file has been successfully converted.
+            To receive and download your converted file,
+            you need an active subscription.
+        </p>
+
+        <!--
+        CHANGE THE LINK BELOW
+        TO YOUR SUBSCRIPTION/PAYMENT PAGE
+        -->
+
+        <a
+            href="https://example.com"
+            class="subscribe-button"
+            target="_blank"
+        >
+            Buy Subscription
+        </a>
+
     </div>
 
-    <script>
-        // ----- عناصر -----
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-        const fileName = document.getElementById('fileName');
-        const fileSize = document.getElementById('fileSize');
-        const progressFill = document.getElementById('progressFill');
-        const progressText = document.getElementById('progressText');
-        const startBtn = document.getElementById('startBtn');
-        const overlay = document.getElementById('overlay');
-        const subscribeLink = document.getElementById('subscribeLink');
+</div>
 
-        let selectedFile = null;
 
-        // ----- کلیک روی باکس = باز کردن انتخاب فایل -----
-        dropZone.addEventListener('click', () => fileInput.click());
+<script>
 
-        // ----- انتخاب فایل از طریق input -----
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFile(e.target.files[0]);
-            }
-        });
+const dropZone = document.getElementById("dropZone");
+const fileInput = document.getElementById("fileInput");
 
-        // ----- درگ & دراپ -----
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropZone.classList.add('dragover');
-        });
+const fileInfo = document.getElementById("fileInfo");
+const fileName = document.getElementById("fileName");
+const fileSize = document.getElementById("fileSize");
 
-        dropZone.addEventListener('dragleave', () => {
-            dropZone.classList.remove('dragover');
-        });
+const startButton = document.getElementById("startButton");
 
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('dragover');
-            if (e.dataTransfer.files.length > 0) {
-                handleFile(e.dataTransfer.files[0]);
-            }
-        });
+const progressContainer =
+    document.getElementById("progressContainer");
 
-        // ----- تابع مدیریت فایل -----
-        function handleFile(file) {
-            selectedFile = file;
-            fileName.textContent = `📎 ${file.name}`;
-            fileSize.textContent = (file.size / 1024).toFixed(1) + ' KB';
-            startBtn.disabled = false;
-            // ریست进度
-            progressFill.style.width = '0%';
-            progressText.textContent = '۰٪';
+const progressFill =
+    document.getElementById("progressFill");
+
+const progressText =
+    document.getElementById("progressText");
+
+const overlay =
+    document.getElementById("overlay");
+
+let selectedFile = null;
+
+
+/* FILE SELECT */
+
+fileInput.addEventListener("change", function() {
+
+    if (this.files.length > 0) {
+
+        handleFile(this.files[0]);
+
+    }
+
+});
+
+
+/* CLICK DROP ZONE */
+
+dropZone.addEventListener("click", function(e) {
+
+    if (e.target.tagName !== "LABEL") {
+
+        fileInput.click();
+
+    }
+
+});
+
+
+/* DRAG OVER */
+
+dropZone.addEventListener("dragover", function(e) {
+
+    e.preventDefault();
+
+    dropZone.classList.add("dragover");
+
+});
+
+
+/* DRAG LEAVE */
+
+dropZone.addEventListener("dragleave", function() {
+
+    dropZone.classList.remove("dragover");
+
+});
+
+
+/* DROP */
+
+dropZone.addEventListener("drop", function(e) {
+
+    e.preventDefault();
+
+    dropZone.classList.remove("dragover");
+
+    if (e.dataTransfer.files.length > 0) {
+
+        handleFile(e.dataTransfer.files[0]);
+
+    }
+
+});
+
+
+/* HANDLE FILE */
+
+function handleFile(file) {
+
+    selectedFile = file;
+
+    fileName.textContent = file.name;
+
+    fileSize.textContent = formatBytes(file.size);
+
+    fileInfo.style.display = "flex";
+
+    startButton.disabled = false;
+
+}
+
+
+/* FORMAT FILE SIZE */
+
+function formatBytes(bytes) {
+
+    if (bytes === 0) return "0 Bytes";
+
+    const units = [
+        "Bytes",
+        "KB",
+        "MB",
+        "GB",
+        "TB"
+    ];
+
+    const i =
+        Math.floor(
+            Math.log(bytes) / Math.log(1024)
+        );
+
+    return (
+        parseFloat(
+            (bytes / Math.pow(1024, i)).toFixed(2)
+        )
+        + " "
+        + units[i]
+    );
+
+}
+
+
+/* START CONVERSION */
+
+startButton.addEventListener("click", function() {
+
+    if (!selectedFile) {
+
+        return;
+
+    }
+
+    startButton.disabled = true;
+
+    progressContainer.style.display = "block";
+
+    let progress = 0;
+
+    progressFill.style.width = "0%";
+
+    progressText.textContent = "0%";
+
+
+    const interval = setInterval(function() {
+
+        progress += 1;
+
+        progressFill.style.width =
+            progress + "%";
+
+        progressText.textContent =
+            progress + "%";
+
+
+        if (progress >= 100) {
+
+            clearInterval(interval);
+
+            setTimeout(function() {
+
+                overlay.style.display = "flex";
+
+                document.body.style.overflow = "hidden";
+
+            }, 500);
+
         }
 
-        // ----- دکمه Start -----
-        startBtn.addEventListener('click', () => {
-            if (!selectedFile) return;
+    }, 70);
 
-            startBtn.disabled = true;
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.random() * 4 + 1; // افزایش آرام
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    // نمایش پاپ‌آپ قفل‌کننده
-                    overlay.classList.add('active');
-                    startBtn.disabled = false; // برای دفعه بعد
-                    // ریست فایل (اختیاری)
-                    // selectedFile = null;
-                    // fileName.textContent = 'هیچ فایلی انتخاب نشده';
-                    // fileSize.textContent = '—';
-                }
-                progressFill.style.width = progress + '%';
-                progressText.textContent = Math.round(progress) + '%';
-            }, 130);
-        });
+});
 
-        // ----- لینک اشتراک (قابل تغییر) -----
-        subscribeLink.href = 'https://example.com/subscribe'; // <-- لینک خودت رو بذار
-
-        // ----- بستن پاپ‌آپ با کلیک بیرون (اختیاری) -----
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                // اگر خواستی با کلیک بیرون بسته نشه، این خط رو کامنت کن
-                // overlay.classList.remove('active');
-            }
-        });
-
-        // (اختیاری) با دکمه ESC هم بسته نشه — برای قفل بودن
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && overlay.classList.contains('active')) {
-                // اگه خواستی با ESC بسته نشه، اینو کامنت کن
-                // overlay.classList.remove('active');
-            }
-        });
-    </script>
+</script>
 
 </body>
 </html>
