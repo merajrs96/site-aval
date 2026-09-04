@@ -461,6 +461,7 @@ footer {
 
 
 <!-- SUBSCRIPTION POPUP -->
+<!-- SUBSCRIPTION POPUP -->
 
 <div
     class="overlay"
@@ -481,10 +482,19 @@ footer {
             you need an active subscription.
         </p>
 
-        <!--
-        CHANGE THE LINK BELOW
-        TO YOUR SUBSCRIPTION/PAYMENT PAGE
-        -->
+        <!-- PRICE OPTIONS -->
+
+        <div class="price-options">
+
+            <div class="price-option old-price">
+                <span>12€ / monthly</span>
+            </div>
+
+            <div class="price-option new-price">
+                <span>10€ / monthly</span>
+            </div>
+
+        </div>
 
         <a
             href="https://example.com"
@@ -497,6 +507,44 @@ footer {
     </div>
 
 </div>
+
+<style>
+
+.price-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.price-option {
+    width: 100%;
+    padding: 13px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 15px;
+}
+
+.old-price {
+    background: #1a1c24;
+    color: #777b88;
+}
+
+.old-price span {
+    text-decoration: line-through;
+}
+
+.new-price {
+    background: #f5f5f5;
+    color: #111;
+}
+
+.new-price span {
+    font-size: 17px;
+}
+
+</style>
 
 
 <script>
