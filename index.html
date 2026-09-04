@@ -1,202 +1,386 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Meraj</title>
-  <style>
-    /* ریست اولیه */
-    * {margin:0; padding:0; box-sizing:border-box;}
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #4169e1, #87ceeb);
-      color: #333;
-      line-height: 1.6;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تبدیل به L-Text</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* همبرگر منو */
-    .hamburger {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      width: 35px;
-      height: 30px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      cursor: pointer;
-      z-index: 1000;
-    }
-    .hamburger span {
-      display: block;
-      height: 5px;
-      background: #333;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-    /* منوی بغل */
-    .menu {
-      position: fixed;
-      top: 0;
-      right: -250px;
-      width: 250px;
-      height: 100%;
-      background: linear-gradient(180deg, #4facfe, #00f2fe);
-      box-shadow: -2px 0 5px rgba(0,0,0,0.3);
-      padding: 50px 20px;
-      transition: right 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .menu.active {
-      right: 0;
-    }
-    .menu a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 18px;
-    }
+        .container {
+            background: #1e293b;
+            border-radius: 32px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            border: 1px solid #334155;
+        }
 
-    /* تیتر اصلی */
-    .site-title {
-      background: linear-gradient(90deg, #4169e1, #add8e6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-size: 50px;
-      text-align: center;
-      margin: 40px 0;
-    }
+        h1 {
+            color: #f1f5f9;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
 
-    section {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 20px;
-      border-radius: 15px;
-      background: linear-gradient(135deg, #f0f8ff, #00008b);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
+        .subtitle {
+            color: #94a3b8;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 28px;
+            line-height: 1.8;
+        }
 
-    img {
-      max-width: 100%;
-      border-radius: 10px;
-      margin: 10px 0;
-    }
+        .subtitle strong {
+            color: #a78bfa;
+        }
 
-    h2,h3,h4 {
-      margin-bottom: 10px;
-    }
+        /* Drop Box */
+        .drop-zone {
+            border: 2px dashed #475569;
+            border-radius: 20px;
+            padding: 50px 20px;
+            text-align: center;
+            color: #cbd5e1;
+            transition: 0.3s;
+            cursor: pointer;
+            background: #0f172a;
+            margin-bottom: 24px;
+            position: relative;
+        }
 
-    p, li {
-      margin-bottom: 10px;
-    }
+        .drop-zone:hover,
+        .drop-zone.dragover {
+            border-color: #a78bfa;
+            background: #1e293b;
+        }
 
-    ul {
-      list-style-type: disc;
-      padding-left: 20px;
-    }
+        .drop-zone .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+        .drop-zone p {
+            font-size: 15px;
+        }
 
-    input, button {
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
-      font-size: 16px;
-    }
+        .drop-zone .file-name {
+            color: #a78bfa;
+            font-weight: 600;
+            margin-top: 10px;
+            word-break: break-all;
+        }
 
-    input {
-      border: 1px solid #ccc;
-    }
+        /* Progress */
+        .progress-wrapper {
+            margin: 24px 0 20px;
+        }
 
-    button {
-      background: linear-gradient(90deg, #43cea2, #185a9d);
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #334155;
+            border-radius: 99px;
+            overflow: hidden;
+        }
 
-    button:hover {
-      opacity: 0.8;
-    }
-  </style>
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #a78bfa, #8b5cf6);
+            border-radius: 99px;
+            transition: width 0.15s ease;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            color: #94a3b8;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        /* Start Button */
+        .btn-start {
+            width: 100%;
+            padding: 16px;
+            background: #7c3aed;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-start:hover {
+            background: #6d28d9;
+            transform: scale(1.02);
+        }
+
+        .btn-start:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ----- OVERLAY (پاپ‌آپ قفل‌کننده) ----- */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 20px;
+        }
+
+        .overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 32px;
+            padding: 48px 40px;
+            max-width: 460px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            animation: fadeUp 0.4s ease;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal .lock-icon {
+            font-size: 56px;
+            margin-bottom: 16px;
+        }
+
+        .modal h2 {
+            color: #f1f5f9;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .modal .msg {
+            color: #cbd5e1;
+            font-size: 15px;
+            line-height: 2;
+            margin-bottom: 28px;
+        }
+
+        .modal .msg span {
+            display: block;
+        }
+
+        .modal .btn-subscribe {
+            display: inline-block;
+            padding: 14px 40px;
+            background: #f59e0b;
+            color: #0f172a;
+            font-weight: 700;
+            font-size: 16px;
+            border-radius: 40px;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .modal .btn-subscribe:hover {
+            background: #d97706;
+            transform: scale(1.04);
+        }
+
+        .modal .btn-subscribe::after {
+            content: " 🔗";
+        }
+
+        /* Responsive */
+        @media (max-width: 500px) {
+            .container {
+                padding: 24px;
+            }
+            .modal {
+                padding: 32px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- همبرگر -->
-  <div class="hamburger" id="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+    <div class="container">
+        <h1>📄 L‑Text Converter</h1>
+        <div class="subtitle">
+            <strong>تبدیل هر فرمتی</strong> به فرمت اختصاصی <strong>L‑Text</strong> —
+            فقط کافیه فایل رو بندازی اینجا، بعد Start کن.
+        </div>
 
-  <!-- منوی بغل -->
-  <div class="menu" id="menu">
-    <a href="#section1">خانه</a>
-    <a href="#section2">درباره معراج</a>
-    <a href="#section3">عکس و لینک</a>
-    <a href="#section4">خلاف‌ها</a>
-    <a href="#section5">رزرو فرم</a>
-  </div>
+        <!-- Drop Zone -->
+        <div class="drop-zone" id="dropZone">
+            <div class="icon">📂</div>
+            <p>فایل رو بکشید اینجا یا کلیک کنید</p>
+            <div class="file-name" id="fileName">هیچ فایلی انتخاب نشده</div>
+            <input type="file" id="fileInput" style="display:none" />
+        </div>
 
-  <!-- بخش‌ها -->
-  <section id="section1">
-    <h1 class="site-title">معراج خیلی خفنه</h1>
-    <p>چون عضو مافیاس</p>
-  </section>
+        <!-- Progress -->
+        <div class="progress-wrapper">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-label">
+                <span id="progressText">۰٪</span>
+                <span id="fileSize">—</span>
+            </div>
+        </div>
 
-  <section id="section2">
-    <h2>چرا هیشکی اینو نمیدونست</h2>
-    <p>چون معراج خوشش نمیاد کسی بفهمه</p>
-  </section>
+        <!-- Start Button -->
+        <button class="btn-start" id="startBtn" disabled>▶ شروع تبدیل</button>
+    </div>
 
-  <section id="section3">
-    <img src="https://www.quickanddirtytips.com/wp-content/uploads/2022/08/shutterstock_699567733-scaled.jpg" alt="عکس معراج">
-    <p>عکس معراج</p>
-    <a href="https://mafia.gg/" target="_blank">سایت رسمی مافیا</a>
-  </section>
+    <!-- ===== OVERLAY (پاپ‌آپ قفل‌کننده) ===== -->
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <div class="lock-icon">🔒</div>
+            <h2>برای دریافت فایل باید اشتراک داشته باشید</h2>
+            <div class="msg">
+                <span>✅ تبدیل با موفقیت انجام شد.</span>
+                <span>📥 اما خروجی فقط برای کاربران ویژه است.</span>
+                <span>🎁 با تهیه اشتراک، فایل رو دانلود کن.</span>
+                <span>🚀 پشتیبانی از تیم ما یعنی توسعه بیشتر.</span>
+            </div>
+            <a class="btn-subscribe" href="#" id="subscribeLink">خرید اشتراک</a>
+        </div>
+    </div>
 
-  <section id="section4">
-    <h3>خلاف‌های بزرگ معراج</h3>
-    <ul>
-      <li>دزدی از بانک مرکزی</li>
-      <li>کلاه‌برداری از ایلان ماسک</li>
-      <li>قاچاق اسلحه از آمریکا</li>
-    </ul>
-  </section>
+    <script>
+        // ----- عناصر -----
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const startBtn = document.getElementById('startBtn');
+        const overlay = document.getElementById('overlay');
+        const subscribeLink = document.getElementById('subscribeLink');
 
-  <section id="section5">
-    <h4>برای رزرو نوبت ملاقات با این مافیای جذاب و خطرناک فرم زیر را پر کنید</h4>
-    <p>(این سایت امنیت جانی شمارا تضمین نمی‌کند)</p>
-    <form action="#" method="post">
-      <label for="fullname">Full Name</label>
-      <input type="text" id="fullname" name="fullname" placeholder="مثال: پارسا ابراهیمی" required>
+        let selectedFile = null;
 
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="e.x parsa.kon@gmail.com" required>
+        // ----- کلیک روی باکس = باز کردن انتخاب فایل -----
+        dropZone.addEventListener('click', () => fileInput.click());
 
-      <label for="phone">Phone</label>
-      <input type="tel" id="phone" name="phone" placeholder="شماره تماس" required>
+        // ----- انتخاب فایل از طریق input -----
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
 
-      <button type="submit">ثبت</button>
-    </form>
-  </section>
+        // ----- درگ & دراپ -----
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
 
-  <!-- JS -->
-  <script>
-    const hamburger = document.getElementById('hamburger');
-    const menu = document.getElementById('menu');
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
 
-    hamburger.addEventListener('click', () => {
-      menu.classList.toggle('active');
-      hamburger.classList.toggle('open');
-    });
-  </script>
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        // ----- تابع مدیریت فایل -----
+        function handleFile(file) {
+            selectedFile = file;
+            fileName.textContent = `📎 ${file.name}`;
+            fileSize.textContent = (file.size / 1024).toFixed(1) + ' KB';
+            startBtn.disabled = false;
+            // ریست进度
+            progressFill.style.width = '0%';
+            progressText.textContent = '۰٪';
+        }
+
+        // ----- دکمه Start -----
+        startBtn.addEventListener('click', () => {
+            if (!selectedFile) return;
+
+            startBtn.disabled = true;
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 4 + 1; // افزایش آرام
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    // نمایش پاپ‌آپ قفل‌کننده
+                    overlay.classList.add('active');
+                    startBtn.disabled = false; // برای دفعه بعد
+                    // ریست فایل (اختیاری)
+                    // selectedFile = null;
+                    // fileName.textContent = 'هیچ فایلی انتخاب نشده';
+                    // fileSize.textContent = '—';
+                }
+                progressFill.style.width = progress + '%';
+                progressText.textContent = Math.round(progress) + '%';
+            }, 130);
+        });
+
+        // ----- لینک اشتراک (قابل تغییر) -----
+        subscribeLink.href = 'https://example.com/subscribe'; // <-- لینک خودت رو بذار
+
+        // ----- بستن پاپ‌آپ با کلیک بیرون (اختیاری) -----
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                // اگر خواستی با کلیک بیرون بسته نشه، این خط رو کامنت کن
+                // overlay.classList.remove('active');
+            }
+        });
+
+        // (اختیاری) با دکمه ESC هم بسته نشه — برای قفل بودن
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('active')) {
+                // اگه خواستی با ESC بسته نشه، اینو کامنت کن
+                // overlay.classList.remove('active');
+            }
+        });
+    </script>
+
 </body>
-    </html>
+</html>
